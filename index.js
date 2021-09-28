@@ -1,5 +1,5 @@
 const {Telegraf} = require('telegraf');
-const bot = new Telegraf('2047079555:AAGAgR6dj1KOqAGSOAo0hBH7BDOSgWtdru0');
+const bot = new Telegraf(process.env.S103TOKEN);
 const commandsList = require('./commands');
 
 var dutyCommands = require('./duty/duty');
