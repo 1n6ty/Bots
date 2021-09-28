@@ -1,0 +1,16 @@
+{
+  "name": "10-3",
+  "version": "1.0.0",
+  "description": "It is a project about servant of 10-3 class(may be 11-3)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "1n6ty",
+  "license": "ISC",
+  "dependencies": {
+    "telegraf": "^4.4.2"
+  }
+}
