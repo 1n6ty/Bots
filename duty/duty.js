@@ -14,7 +14,7 @@ module.exports.dutyReply = function(){
         dutyDate = dutyList.date,
         students = dutyList.students;
     if(today != dutyDate && today != 0){
-        id = increase(id, 12);
+        id = increase(id, 11);
         dutyList.id = id;
         dutyList.date = today;
         writeFile('./duty/duty.json', JSON.stringify(dutyList), (err) => {});
