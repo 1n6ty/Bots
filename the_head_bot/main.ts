@@ -93,9 +93,9 @@ client.on('interactionCreate', async interaction => {
     let obj = headMasters.get(getKeyByChannel(interaction.channel?.id!));
     if(userToD && obj){
       let member = obj.members.filter(member => member.id == userToD?.id);
-      if(member.size > 0){
+      if(member.size >= 0){
         member.at(0)?.voice.setChannel(null);
-        interaction.reply({content: `${member.at(0)!.nickname} has been disconnected!`});
+        interaction.reply({content: `${(member.at(0)!.nickname) ? member.at(0)!.nickname: userToD.username} has been disconnected!`});
       } else{
         interaction.reply({content: "User isn't here!"});
       }
