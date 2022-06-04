@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-import { Client, GuildMember, Intents, TextChannel, VoiceChannel } from "discord.js";
+import { Client, GuildMember, Intents, VoiceChannel } from "discord.js";
 
 const client = new Client({ intents: [
   Intents.FLAGS.GUILDS,
@@ -63,8 +63,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     }
   }
   if(newState.channel){
-    if(newState.channel.name == "Join2MakeNewChannel"){
-      let newVoiceChannel = await newState.guild.channels.create(`V0ic3`, {
+    if(newState.channel.name == "✨{₺01n2m∆k3!n3w!4∆nn3l}°"){
+      let newVoiceChannel = await newState.guild.channels.create(`🔊 V0ic3`, {
         type: "GUILD_VOICE",
         parent: newState.channel.parentId!
       });
@@ -95,7 +95,7 @@ client.on('interactionCreate', async interaction => {
       let member = obj.members.filter(member => member.id == userToD?.id);
       if(member.size > 0){
         member.at(0)?.voice.setChannel(null);
-        interaction.reply({content: "User has been disconnected!"});
+        interaction.reply({content: `${member.at(0)!.nickname} has been disconnected!`});
       } else{
         interaction.reply({content: "User isn't here!"});
       }
