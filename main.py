@@ -2,13 +2,15 @@ import telebot
 from telebot import types
 
 import datetime
+from pathlib import Path
 import json
 
-file_path = './table.json'
-with open(file_path, 'r') as f:
+BASE_DIR = Path(__file__).parent
+
+with open(BASE_DIR / 'table.json', 'r') as f:
     table = json.loads(f.read())
 
-with open('./secret.json', 'r') as f:
+with open(BASE_DIR / 'secret.json', 'r') as f:
     secret = json.loads(f.read())
     token = secret['bot_token']
     chat_id = secret['chat_id']
