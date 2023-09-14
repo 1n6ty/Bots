@@ -8,10 +8,12 @@ file_path = './table.json'
 with open(file_path, 'r') as f:
     table = json.loads(f.read())
 
-token = ''
-bot = telebot.TeleBot(token)
+with open('./secret.json', 'r') as f:
+    secret = json.loads(f.read())
+    token = secret['bot_token']
+    chat_id = secret['chat_id']
 
-chat_id = ''
+bot = telebot.TeleBot(token)
 
 def add2table(text: str, current_ind: int):
     global table
