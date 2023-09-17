@@ -73,7 +73,7 @@ def message_reply(msg):
     else:
         add2table(msg.text, 0)
     
-    with open(file_path, 'w') as f:
+    with open(BASE_DIR / 'table.json', 'w') as f:
         f.write(json.dumps(table))
 
-bot.infinity_polling()
+bot.infinity_polling(timeout=10, long_polling_timeout = 5)
