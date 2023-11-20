@@ -23,8 +23,14 @@ def add2table(text: str, current_ind: int):
     if current_ind == 0:
         time_d = datetime.timedelta(days=1)
     elif current_ind == 1:
-        time_d = datetime.timedelta(days=14)
+        time_d = datetime.timedelta(days=3)
     elif current_ind == 2:
+        time_d = datetime.timedelta(days=6)
+    elif current_ind == 3:
+        time_d = datetime.timedelta(days=14)
+    elif current_ind == 4:
+        time_d = datetime.timedelta(days=30)
+    elif current_ind == 5:
         time_d = datetime.timedelta(days=60)
     else:
         return
