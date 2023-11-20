@@ -1,7 +1,7 @@
 import telebot
-from telebot import types
 
 import datetime
+from threading import Timer
 from pathlib import Path
 import json
 
@@ -36,42 +36,42 @@ def add2table(text: str, current_ind: int):
     else:
         table[day_rep] = [[text, current_ind + 1]]
     
+def send_note(bot, chat_id):
+    day_rep = datetime.datetime.now().date()
+
+    if day_rep.strftime("%m/%d/%y") in table:
+        bot.send_message(chat_id, f'{day_rep.strftime("%m/%d/%y")}\n' + "\n".join([i[0] for i in table[day_rep.strftime("%m/%d/%y")]]))
+    else:
+        bot.send_message(chat_id, 'Ничего на сегодня нет')
+    
+    miss_dates = [i for i in table if datetime.datetime.strptime(i, '%m/%d/%y').date() < day_rep]
+    
+    for d in miss_dates:
+        for i in table[d]:
+            add2table(*i)
+
+    for d in miss_dates:
+        del table[d]
+    
+    cur_datetime = datetime.datetime.now()
+    delta = datetime.timedelta(days=1)
+    nex_time = (cur_datetime + delta).replace(hour=17, minute=0, second=0, microsecond=0)
+    
+    t = Timer((nex_time - cur_datetime).total_seconds(), send_note, args=[bot, chat_id])
+    t.start()
 
 @bot.message_handler(commands=['start'])
 def start_message(msg):
     bot.send_message(msg.chat.id, f'Chat id - {msg.chat.id}')
-
-@bot.message_handler(commands=['button'])
-def get_table_btn(message):
-    markup=types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn=types.KeyboardButton("Список на сегодня")
-    markup.add(btn)
-
-    bot.send_message(message.chat.id, reply_markup=markup)
+    
+    send_note(bot, chat_id)
 
 @bot.message_handler(content_types='text')
 def message_reply(msg):
     if not (str(msg.chat.id) == chat_id):
         return
-    
-    if msg.text == 'Список на сегодня':
-        day_rep = datetime.datetime.now().date()
 
-        if day_rep.strftime("%m/%d/%y") in table:
-            bot.send_message(msg.chat.id, f'{day_rep.strftime("%m/%d/%y")}\n' + "\n".join([i[0] for i in table[day_rep.strftime("%m/%d/%y")]]))
-        else:
-            bot.send_message(msg.chat.id, 'Ничего на сегодня нет')
-        
-        miss_dates = [i for i in table if datetime.datetime.strptime(i, '%m/%d/%y').date() < day_rep]
-        
-        for d in miss_dates:
-            for i in table[d]:
-                add2table(*i)
-
-        for d in miss_dates:
-            del table[d]
-    else:
-        add2table(msg.text, 0)
+    add2table(msg.text, 0)
     
     with open(BASE_DIR / 'table.json', 'w') as f:
         f.write(json.dumps(table))
